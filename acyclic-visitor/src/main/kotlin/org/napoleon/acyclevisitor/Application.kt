@@ -1,18 +1,13 @@
 package org.napoleon.acyclevisitor
 
-import org.napoleon.acyclevisitor.domains.ConfigureForDosVisitor
-import org.napoleon.acyclevisitor.domains.ConfigureForUnixVisitor
-import org.napoleon.acyclevisitor.domains.Hayes
-import org.napoleon.acyclevisitor.domains.Zoom
+import org.napoleon.acyclevisitor.domains.*
 
 fun main() {
-    val dosVisitor = ConfigureForDosVisitor()
-    val unixVisitor = ConfigureForUnixVisitor()
+    val visitors: List<ModemVisitor> = listOf(ConfigureForDosVisitor(), ConfigureForUnixVisitor())
+    val modems: List<Modem> = listOf(Hayes(), Zoom())
 
-    val hayes = Hayes()
-    val zoom = Zoom()
-
-    hayes.accept(dosVisitor)
-    zoom.accept(dosVisitor)
-    zoom.accept(unixVisitor)
+    run(visitors, modems)
 }
+
+fun run(visitors: List<ModemVisitor>, modems: List<Modem>) =
+    modems.forEach { modem -> visitors.forEach(modem::accept) }

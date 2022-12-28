@@ -1,11 +1,25 @@
 package org.napoleon.acyclevisitor.domains
 
-class Zoom {
-    fun accept(zoomVisitor: ZoomVisitor) = zoomVisitor.visit(this)
+fun interface Modem {
+    fun accept(modemVisitor: ModemVisitor)
+}
+
+class Zoom : Modem {
+    override fun accept(modemVisitor: ModemVisitor) {
+        if (modemVisitor is ZoomVisitor) {
+            modemVisitor.visit(this)
+        }
+    }
+
     override fun toString() = "Zoom Modem"
 }
 
-class Hayes {
-    fun accept(hayesVisitor: HayesVisitor) = hayesVisitor.visit(this)
+class Hayes : Modem {
+    override fun accept(modemVisitor: ModemVisitor) {
+        if (modemVisitor is HayesVisitor) {
+            modemVisitor.visit(this)
+        }
+    }
+
     override fun toString() = "Hayes Modem"
 }
