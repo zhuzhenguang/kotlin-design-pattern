@@ -12,11 +12,9 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.logback)
     testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
+    testImplementation(libs.bundles.test)
 }
 
 tasks.withType<KotlinCompile> {

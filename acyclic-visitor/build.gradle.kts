@@ -12,10 +12,9 @@ repositories {
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.4.5")
+    implementation(libs.logback)
     testImplementation(kotlin("test"))
-    testImplementation("org.assertj:assertj-core:3.23.1")
-    testImplementation("org.mockito:mockito-core:4.10.0")
+    testImplementation(libs.bundles.test)
 }
 
 tasks.test {
