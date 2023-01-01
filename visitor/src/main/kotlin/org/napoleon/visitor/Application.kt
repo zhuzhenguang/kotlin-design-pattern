@@ -8,7 +8,5 @@ fun main() {
         Sergeant(Soldier(), Soldier(), Soldier())
     )
 
-    commander.accept(SoldierVisitor())
-    commander.accept(SergeantVisitor())
-    commander.accept(CommanderVisitor())
+    commander.accept(UnitVisitor())
 }

@@ -7,12 +7,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
 import org.napoleon.visitor.domains.*
+import org.napoleon.visitor.domains.Unit
 import org.slf4j.LoggerFactory
 import java.util.*
 
-abstract class VisitorTest {
-    protected lateinit var appender: InMemoryAppender
+class VisitorTest {
+    private lateinit var appender: InMemoryAppender
 
     @BeforeEach
     fun setUp() {
@@ -21,36 +23,32 @@ abstract class VisitorTest {
 
     @AfterEach
     fun tearDown() = appender.stop()
-}
 
-class CommanderVisitorTest : VisitorTest() {
     @Test
-    fun `should visit commander`() {
-        CommanderVisitor().visit(Commander())
+    fun `should visit unit`() {
+        UnitVisitor().visit(Commander(*children()))
 
         assertThat(appender.getLastMessage()).isEqualTo("Hello Commander")
         assertThat(appender.getLogSize()).isEqualTo(1)
     }
-}
 
-class SoldierVisitorTest : VisitorTest() {
     @Test
-    fun `should visit soldier`() {
-        SoldierVisitor().visit(Soldier())
-
-        assertThat(appender.getLastMessage()).isEqualTo("Good to see you Soldier")
-        assertThat(appender.getLogSize()).isEqualTo(1)
-    }
-}
-
-class SergeantVisitorTest : VisitorTest() {
-    @Test
-    fun `should visit soldier`() {
-        SergeantVisitor().visit(Sergeant())
+    fun `should visit sergeant`() {
+        UnitVisitor().visit(Sergeant(*children()))
 
         assertThat(appender.getLastMessage()).isEqualTo("Hello Sergeant")
         assertThat(appender.getLogSize()).isEqualTo(1)
     }
+
+    @Test
+    fun `should visit soldier`() {
+        UnitVisitor().visit(Soldier(*children()))
+
+        assertThat(appender.getLastMessage()).isEqualTo("Good to see you Soldier")
+        assertThat(appender.getLogSize()).isEqualTo(1)
+    }
+
+    private fun children() = Array<Unit>(5) { Mockito.mock() }
 }
 
 class InMemoryAppender : AppenderBase<ILoggingEvent>() {
